@@ -1,4 +1,4 @@
-from random import random, uniform, randrange, randint
+from random import randint
 
 
 def make_unique_numbers(count, minim, maxim):
@@ -16,10 +16,10 @@ def make_unique_numbers(count, minim, maxim):
     return num_row
 
 
-#Создаю класс Карточки
-class Card():
+# Создаю класс Карточки
+class Card:
     _rows = 3
-    _columns = 5
+    _columns = 9
     _nums_in_each_rows = 5
     _data = None
     _empty_num = 0
@@ -58,10 +58,8 @@ class Card():
                 cursor += ' '
         return cursor + delimiter
 
-
     def __contains__(self, item):
         return item in self._data
-
 
     def cross_number(self, number):
         for index, item in enumerate(self._data):
@@ -73,7 +71,8 @@ class Card():
     def closed(self) -> bool:
         return set(self._data) == {self._empty_num, self._removed_num}
 
-#Формирую класс для Игры
+
+# Формирую класс для Игры
 class Game:
     _usercard = None
     _compcard = None
@@ -112,6 +111,7 @@ class Game:
             if self._compcard.closed():
                 return 2
         return 0
+
 
 # Класс Бочонок
 class Barrel:
