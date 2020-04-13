@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 .idea/
+DZ-text.txt
 
 # C extensions
 *.so
