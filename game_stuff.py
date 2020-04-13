@@ -1,4 +1,4 @@
-from random import randint
+from random import randint, shuffle
 
 
 def make_unique_numbers(count, minim, maxim):
@@ -12,8 +12,11 @@ def make_unique_numbers(count, minim, maxim):
     # Создаю список из полученного множества из count
     # уникальных значений
     num_row = list(num_row)
-    # print(num_row)
+    # "Встряхиваю" список цифр
+    shuffle(num_row)
+    print(num_row)
     return num_row
+
 
 
 # Создаю класс Карточки
@@ -23,7 +26,7 @@ class Card:
     _nums_in_each_rows = 5
     _data = None
     _empty_num = 0
-    _removed_num = -1
+    _checked_number = -1
 
     def __init__(self):
         card_numbers_count = self._rows * self._nums_in_each_rows
@@ -45,10 +48,10 @@ class Card:
         for index, number in enumerate(self._data):
             if  number == self._empty_num:
                 cursor += '  '
-            elif number == self._removed_num:
+            elif number == self._checked_number:
                 cursor += ' -'
             elif number < 10:
-                cursor += f'{str(number)}'
+                cursor += f' {str(number)}'
             else:
                 cursor += str(number)
 
@@ -61,15 +64,15 @@ class Card:
     def __contains__(self, item):
         return item in self._data
 
-    def cross_number(self, number):
+    def crossout_number(self, number):
         for index, item in enumerate(self._data):
             if item == number:
-                self._data[index] = self._removed_num
+                self._data[index] = self._checked_number
                 return
         raise ValueError(f'Номера {number} нет на карточке.')
 
     def closed(self) -> bool:
-        return set(self._data) == {self._empty_num, self._removed_num}
+        return set(self._data) == {self._empty_num, self._checked_number}
 
 
 # Формирую класс для Игры
@@ -93,21 +96,22 @@ class Game:
          2 - computer wins
         """
 
+
         barrel = self._barrels.pop()
         print(f'Новый бочонок: {barrel}  (осталось {len(self._barrels)})')
         print(f'------ Ваша карточка ------\n{self._usercard}')
         print(f'-- Карточка компьютера --\n{self._compcard}')
 
         user_answer = input('Зачеркнуть цифру? y/n)').lower().strip()
-        if user_answer == 'y' and not barrel in self._usercard or user_answer != 'y' and barrel in self._usercard:
+        if (user_answer == 'y' and barrel not in self._usercard) or (user_answer != 'y' and barrel in self._usercard):
             return 2
 
         if barrel in self._usercard:
-            self._usercard.cross_number(barrel)
+            self._usercard.crossout_number(barrel)
             if self._usercard.closed():
                 return 1
         if barrel in self._compcard:
-            self._compcard.cross_number(barrel)
+            self._compcard.crossout_number(barrel)
             if self._compcard.closed():
                 return 2
         return 0
