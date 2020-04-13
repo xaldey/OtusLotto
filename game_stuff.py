@@ -2,10 +2,6 @@ from random import randint, shuffle
 import time
 
 
-# Делаю режим игры по-умолчанию (человек-компьютер)
-mode = 2
-
-
 def make_unique_numbers(count, minim, maxim):
     # Создаю пустое множество (для уникальных значений)
     num_row = set()
@@ -167,17 +163,8 @@ class GamePcToPc:
         return 0
 
 
-def gamemode():
-    print('Выберите режим игры: человек-компьютер (1) / компьютер-компьютер (2)')
-    mode = input('Сделайте выбор режима: ')
-    return mode
-
-
-if __name__ == '__main__':
-    print(mode)
-    gamemode()
-    print(mode)
-    if mode == 1:
+def gamemode(mode):
+    if mode == 0:
         game = GameHumanVsPc()
         while True:
             score = game.play_round()
@@ -187,13 +174,40 @@ if __name__ == '__main__':
             elif score == 2:
                 print('Вы проиграли!')
                 break
-    elif mode == 2:
+    else:
         game = GamePcToPc()
         while True:
             score = game.play_round()
             if score == 1:
-                print('Выиграл первый игрок')
+                print('Выиграл первый компьютер')
                 break
             elif score == 2:
-                print('Выиграл второй игрок!')
+                print('Выиграл второй компьютер!')
                 break
+
+
+if __name__ == '__main__':
+    print('Выберите режим игры: человек-компьютер (0) / компьютер-компьютер (любая другая цифра)')
+    mode = int(input('Сделайте выбор режима: '))
+    # choice()
+    gamemode(mode)
+    # if mode == 1:
+    #     game = GameHumanVsPc()
+    #     while True:
+    #         score = game.play_round()
+    #         if score == 1:
+    #             print('Вы выиграли')
+    #             break
+    #         elif score == 2:
+    #             print('Вы проиграли!')
+    #             break
+    # else:
+    #     game = GamePcToPc()
+    #     while True:
+    #         score = game.play_round()
+    #         if score == 1:
+    #             print('Выиграл первый компьютер')
+    #             break
+    #         elif score == 2:
+    #             print('Выиграл второй компьютер!')
+    #             break
