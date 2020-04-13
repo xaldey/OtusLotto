@@ -1,5 +1,4 @@
 from random import randint, shuffle
-import time
 
 
 def make_unique_numbers(count, minim, maxim):
@@ -98,8 +97,8 @@ class GameHumanVsPc:
         # Достаю бочонки (убираю их из мешка и "попаю"
         barrel = self._barrels.pop()
         print(f'Новый бочонок: {barrel}  (осталось {len(self._barrels)})')
-        print(f'------ Ваша карточка ------\n{self._usercard}')
-        print(f'-- Карточка компьютера --\n{self._compcard}')
+        print(f'-----  Карточка человека -----\n{self._usercard}')
+        print(f'----- Карточка компьютера ----\n{self._compcard}')
 
         user_answer = input('Зачеркнуть цифру? y/n)').lower().strip()
         if (user_answer == 'y' and barrel not in self._usercard) or (user_answer != 'y' and barrel in self._usercard):
@@ -163,6 +162,55 @@ class GamePcToPc:
         return 0
 
 
+# Формирую класс для Игры №3 (человек - человек) GameHuman_Human
+class GameHumanVsHuman:
+    _usercard1 = None
+    _usercard2 = None
+    _num_of_barrels = 90
+    _barrels = []
+    _gameover = False
+
+    def __init__(self):
+        self._usercard1 = Card()
+        self._usercard2 = Card()
+        self._barrels = make_unique_numbers(self._num_of_barrels, 1, 90)
+
+    def play_round(self) -> int:
+        """
+        :return:
+         0 - game must go on
+         1 - user1 wins
+         2 - user2 wins
+
+        """
+
+        # Достаю бочонки (убираю их из мешка и "попаю"
+        barrel = self._barrels.pop()
+        print(f'Новый бочонок: {barrel}  (осталось {len(self._barrels)})')
+        print(f'- Карточка первого игрока -\n{self._usercard1}')
+        print(f'- Карточка второго игрока -\n{self._usercard2}')
+
+        user_answer1 = input('Вопрос к Игорьку №1 - Зачеркнуть цифру? y/n)').lower().strip()
+        if (user_answer1 == 'y' and barrel not in self._usercard1) or (user_answer1 != 'y' and barrel in self._usercard1):
+            return 2
+
+        if barrel in self._usercard1:
+            self._usercard1.crossout_number(barrel)
+            if self._usercard1.closed():
+                return 1
+
+        user_answer2 = input('Вопрос к Игорьку №2 - Зачеркнуть цифру? y/n)').lower().strip()
+        if (user_answer2 == 'y' and barrel not in self._usercard2) or (
+                user_answer2 != 'y' and barrel in self._usercard2):
+            return 1
+
+        if barrel in self._usercard2:
+            self._usercard2.crossout_number(barrel)
+            if self._usercard2.closed():
+                return 2
+        return 0
+
+
 def gamemode(mode):
     if mode == 0:
         game = GameHumanVsPc()
@@ -173,6 +221,16 @@ def gamemode(mode):
                 break
             elif score == 2:
                 print('Вы проиграли!')
+                break
+    elif mode == 2:
+        game = GameHumanVsHuman()
+        while True:
+            score = game.play_round()
+            if score == 1:
+                print('Выиграл Игорек №1!')
+                break
+            elif score == 2:
+                print('Выиграл Игорек №2!')
                 break
     else:
         game = GamePcToPc()
@@ -187,27 +245,6 @@ def gamemode(mode):
 
 
 if __name__ == '__main__':
-    print('Выберите режим игры: человек-компьютер (0) / компьютер-компьютер (любая другая цифра)')
+    print('Выберите режим игры: человек-компьютер (0) / человек-человек (2) / компьютер-компьютер (любая другая цифра)')
     mode = int(input('Сделайте выбор режима: '))
-    # choice()
     gamemode(mode)
-    # if mode == 1:
-    #     game = GameHumanVsPc()
-    #     while True:
-    #         score = game.play_round()
-    #         if score == 1:
-    #             print('Вы выиграли')
-    #             break
-    #         elif score == 2:
-    #             print('Вы проиграли!')
-    #             break
-    # else:
-    #     game = GamePcToPc()
-    #     while True:
-    #         score = game.play_round()
-    #         if score == 1:
-    #             print('Выиграл первый компьютер')
-    #             break
-    #         elif score == 2:
-    #             print('Выиграл второй компьютер!')
-    #             break
