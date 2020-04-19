@@ -1,20 +1,26 @@
 from random import randint, shuffle
-
+import sys
 
 def make_unique_numbers(count, minim, maxim):
-    # Создаю пустое множество (для уникальных значений)
-    num_row = set()
-    # Генерю номера от min до max, пока не наполнится
-    # (count элементов) множество
-    while len(num_row) < count:
-        num = randint(minim, maxim)
-        num_row.add(num)
-    # Создаю список из полученного множества из count
-    # уникальных значений
-    num_row = list(num_row)
-    # "Встряхиваю" список цифр
-    shuffle(num_row)
-    return num_row
+    try:
+        # Создаю пустое множество (для уникальных значений)
+        num_row = set()
+        # Генерю номера от min до max, пока не наполнится
+        # (count элементов) множество
+        if count <= 0:
+            raise ValueError('Количество чисел может быть строго натуральным!')
+            sys.exit()
+        while len(num_row) < count:
+            num = randint(minim, maxim)
+            num_row.add(num)
+        # Создаю список из полученного множества из count
+        # уникальных значений
+        num_row = list(num_row)
+        # "Встряхиваю" список цифр
+        shuffle(num_row)
+        return num_row
+    except TypeError:
+        raise TypeError
 
 
 # Создаю класс Карточки
@@ -217,7 +223,7 @@ def gamemode(mode):
         while True:
             score = game.play_round()
             if score == 1:
-                print('Вы выиграли')
+                print('Вы выиграли!')
                 break
             elif score == 2:
                 print('Вы проиграли!')
@@ -237,7 +243,7 @@ def gamemode(mode):
         while True:
             score = game.play_round()
             if score == 1:
-                print('Выиграл первый компьютер')
+                print('Выиграл первый компьютер!')
                 break
             elif score == 2:
                 print('Выиграл второй компьютер!')
