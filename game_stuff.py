@@ -1,6 +1,7 @@
 from random import randint, shuffle
 import sys
 
+
 def make_unique_numbers(count, minim, maxim):
     try:
         # Создаю пустое множество (для уникальных значений)
@@ -250,7 +251,19 @@ def gamemode(mode):
                 break
 
 
-if __name__ == '__main__':
+def choose_mode():
     print('Выберите режим игры: человек-компьютер (0) / человек-человек (2) / компьютер-компьютер (любая другая цифра)')
-    mode = int(input('Сделайте выбор режима: '))
-    gamemode(mode)
+    try:
+        mode = int(input('Сделайте выбор режима: '))
+        try:
+            gamemode(mode)
+        except TypeError:
+            print('Некорректный выбор. Сворачиваем удочки и перепрятываемся!')
+            choose_mode()
+    except Exception:
+        print('Некорректный выбор. Сворачиваем удочки и перепрятываемся!')
+        choose_mode()
+
+
+if __name__ == '__main__':
+    choose_mode()

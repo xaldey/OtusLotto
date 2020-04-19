@@ -1,8 +1,12 @@
-from game_stuff import make_unique_numbers
+from game_stuff import make_unique_numbers, Card, choose_mode, gamemode
 import pytest
 
 
 class TestGame:
+    def test_choose_mode(self):
+        """Проверка ввода пустого значения при выборе режима игры"""
+        assert gamemode('asd') == 'str'
+
     def test_dummy(self):
         """Проверка запуска теста"""
         assert 1 == 1
