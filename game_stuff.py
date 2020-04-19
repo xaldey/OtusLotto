@@ -149,11 +149,6 @@ class GamePcToPc:
         print(f'-- Карточка компьютера #1 --\n{self._compcard1}')
         print(f'-- Карточка компьютера #2 --\n{self._compcard2}')
 
-        # Убираю вопрос игроку-человеку
-        # user_answer = input('Зачеркнуть цифру? y/n)').lower().strip()
-        # if (user_answer == 'y' and barrel not in self._usercard) or (user_answer != 'y' and barrel in self._usercard):
-        #     return 2
-
         if barrel in self._compcard1:
             self._compcard1.crossout_number(barrel)
             # Добавил задержку для визуального контроля игры комп-комп
